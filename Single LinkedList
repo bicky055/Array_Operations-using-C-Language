@@ -1,0 +1,507 @@
+#include<stdio.h>
+#include<stdlib.h>
+using namespace std;
+
+struct Node
+{
+	int data;
+	struct Node *next;
+}*first=NULL,*second=NULL,*third=NULL;
+
+void create(int A[],int n)
+{
+	int i;
+	struct Node *t,*last;
+	first=(struct Node *)malloc(sizeof(struct Node));
+	first->data=A[0];
+	first->next=NULL;
+	last=first;
+	
+	for(i=1;i<n;i++)
+	{
+		t=(struct Node *)malloc(sizeof(struct Node));
+		t->data=A[i];
+		t->next=NULL;
+		last->next=t;
+		last=t;
+	}
+}
+
+void create2(int A[],int n)
+{
+	int i;
+	struct Node *t,*last;
+	second=(struct Node *)malloc(sizeof(struct Node));
+	second->data=A[0];
+	second->next=NULL;
+	last=second;
+	
+	for(i=1;i<n;i++)
+	{
+		t=(struct Node *)malloc(sizeof(struct Node));
+		t->data=A[i];
+		t->next=NULL;
+		last->next=t;
+		last=t;
+	}
+}
+
+// Display all elements
+void Display(struct Node *p)
+{
+	while(p!=NULL)
+	{
+		printf("%d ",p->data);
+		p=p->next;
+	}
+}
+// Display all elements using Recursive funtion
+void RDisplay(struct Node *p)
+{
+	if(p!=NULL)
+	{
+		printf("%d ",p->data);
+		RDisplay(p->next);
+	}
+}
+
+//Reverse all the element using same funtion in upper
+
+void Reverse(struct Node *p)
+{
+	if(p!=NULL)
+	{
+		Reverse(p->next);
+		printf("%d ", p->data);
+		
+	}
+}
+
+//count all the elements(length of LinkedList)
+
+int Count(struct Node *p)
+{
+	int count=0;
+	while(p!=0)
+	{
+		count++;
+		p=p->next;
+	}
+}
+//now using Recursion
+
+int RCount(struct Node *p)
+{
+	//base case
+	if(p==0)
+      return 0;
+	else
+		return 1+ RCount(p->next);//recursive fun	
+}
+//sum of all the elements of LinkedList
+int Sum(struct Node *p)
+{
+	int sum=0;
+	while(p!=NULL)
+	{
+		sum+=p->data;
+		p=p->next;
+	}
+	return sum;
+}
+
+//now using recursive fun to find sum 
+int RSum(struct Node *p)
+{
+	//base case
+	if(p==NULL)
+	return 0;
+	return RSum(p->next)+p->data;
+}
+
+//now find Maximum element of Given LinkedList
+
+int Max(struct Node *p)
+{
+	int max=INT_MIN;
+	while(p)
+	{
+		if(max<p->data)
+		max=p->data;
+		p=p->next;
+	}
+	return max;
+}
+
+//resursive funtions 
+
+int RMax(struct Node *p)
+{
+	int x=0;
+	//base case
+	if(p==0)
+	return 0;
+	else
+	{
+		x=RMax(p->next);
+		if(x>p->data)
+		return x;
+		else
+		return p->data;
+	}
+	
+}
+
+//method 2 resursive funtion
+int RMax2(struct Node *p)
+{
+	int x=0;
+	//bace case
+	if(p==0)
+	return 0;
+	x=RMax2(p->next);
+	return x>p->data?x:p->data;//ternary operator
+}
+
+//Linear Search in LinkedList 
+struct Node * LSearch(struct Node *p,int key)
+{
+	while(p!=NULL)
+	{
+		if(p->data==key)
+		return p;
+		
+		p=p->next;
+	}
+	return NULL;
+}
+// resursive version of Linear search
+struct Node * RLSearch(struct Node *p,int key)
+{
+	//base case
+	if(p==NULL)
+	return NULL;
+	if(p->data==key)
+	return p;
+	//recursive call
+	return RLSearch(p->next,key);
+}
+
+// 3.Method Move to front 
+struct Node * LSearch1(struct Node *p,int key)
+{
+	struct Node *q=NULL;
+	
+	while(p!=NULL)
+	{
+		if(p->data==key)
+		{
+		  q->next=p->next;
+		  p->next=first;
+		  first=p;
+		  return p;
+	    }
+	    q=p;
+	    p=p->next;
+   }
+	return NULL;
+}
+
+//Insert Funtion in LinkedList
+void Insert(struct Node *p,int index,int ele)
+{
+	struct Node *t;
+	int i;
+	if(index > 0 || index < Count(p))
+	return ;
+	t=(struct Node *)malloc(sizeof(struct Node));
+	t->data=ele;
+
+	//befor 1 Node insert
+	if(index == 0)
+	{
+		t->next=p;
+		first=t;
+	}
+	//after 1 Node 
+	else
+	{
+		for( i=0;i<index-1;i++)
+		{
+			p=p->next;
+		}
+		p->next=t;
+	}
+}
+//Insertion in Sorted linkedList
+void SortedInsert(struct Node *p,int x)
+{
+	struct Node *t,*q=NULL;
+	
+	t=(struct Node*)malloc(sizeof(struct Node));
+	t->data=x;
+	t->next=NULL;
+	
+	//special case 
+	if(first==NULL)
+		first = t;
+		
+	else
+	{
+		while(p && (p->data < x))
+		{
+			q=p;
+			p=p->next;
+		}
+		//spacial case
+		if(p==first)
+		{
+			t->next=first;
+			first=t;
+		}
+		else
+		{
+			t->next=q->next;
+			q->next=t;
+		}
+	}
+	
+}
+//Delete Node On LinkedList
+int Delete(struct Node *p,int index)
+{
+	struct Node* q=NULL;
+	int x=-1;
+	int i;
+	if(index<1 || index>Count(p))
+	return -1;
+	if(index==1)
+	{
+		q=first;
+		x=first->data;
+		first=first->next;
+		free(q);
+		return x;
+	}
+	else
+	{
+		for(i=0;i<index-1;i++)
+		{
+			q=p;
+			p=p->next;
+		}
+		q->next=p->next;
+		x=p->data;
+		free(p);
+		return x;
+	}
+}
+
+//Check LinkedList is Sorted or not
+int isSorted(struct Node *p)
+{
+	int x=-65536;
+	while(p!=0)
+	{
+		//check it is not sotred
+		if(p->data<x)
+		  return 0;
+		x=p->data;
+		p=p->next;  
+	}
+	return 1;
+}
+//Remove Duplicate element for A Linkedlist
+
+void RemoveDuplicate(struct Node *p)
+{
+	struct Node *q=p->next;
+	
+	while(q!=NULL)
+	{
+		if(p->data!=q->data)
+		{
+			p=q;
+			q=q->next;
+		}
+		else
+		{
+			p->next=q->next;
+			free(q);
+			q=p->next;
+		}
+	}
+}
+//Reversing LinkedList using Array
+
+void Reverse1(struct Node *p)
+{
+	struct Node *q=p;
+	//create array Dynamically
+	int *A,i;
+	//find size of array 
+	A=(int *)malloc(sizeof(int)*Count(p));
+	
+	//copy the linkedlist element in array
+	while(q!=NULL)
+	{
+		A[i]=q->data;
+		q=q->next;
+		i++;
+	}
+	q=p;
+	i--;
+	
+	while(q!=NULL)
+	{
+		q->data=A[i];
+		q=q->next;
+		i--;
+	}
+}
+//Methd 2 for using 3 pointer
+
+void Reverse2(struct Node *p)
+{
+	struct Node *q=NULL,*r=NULL;
+	
+	while(p!=0)
+	{
+		r=q;
+		q=p;
+		p=p->next;
+		q->next=r;
+	}
+	
+	first=q;
+}
+
+//method 3 using Recurstion
+void Reverse3(struct Node *q,struct Node *p)
+{
+	if(p)
+	{
+		Reverse3(p,p->next);
+		p->next=q;
+	}
+	else
+	first=q;
+}
+//Add Tow LinkedList 
+void Concat(struct Node *p,struct Node *q)
+{
+	third=p;
+	
+	while(p->next!=NULL)
+	{
+	   p=p->next;
+    }
+	  p->next=q;
+}
+
+//Marge Two LinkedList
+
+void Marge(struct Node *p,struct Node *q)
+{
+	struct Node *last=NULL;  //Third=NULL but create fun u see that
+	
+	if(p->data<q->data)
+	{
+		last=third=p;
+		p=p->next;
+		third->next=NULL;
+	}
+	else
+	{
+		last=third=q;
+		q=q->next;
+		third->next=NULL;
+	}
+	
+	while( p!=NULL && q!=NULL)
+	{
+		if(p->data<q->data)
+		{
+			last->next=p;
+			last=p;
+			p=p->next;
+			last->next=NULL;
+		}
+		else
+		{
+			last->next=q;
+			last=q;
+			q=q->next;
+			last->next=NULL;
+		}	
+	}
+	if(p)
+		last->next=p;
+		if(q)
+		last->next=q;
+}
+int main()
+{
+	int A[]={10,20,30,40,50};
+    create(A,5);
+    int B[]={5,15,25,35,45};
+    create2(B,5);
+	//Display(first);
+	
+//	RDisplay(first);
+//	printf("\nReverse LinkedList is-: ");
+//	Reverse(first);
+
+//  printf("%d ",Count(first));
+//	printf("%d ",RCount(first));
+
+//	printf("%d ",Sum(first));
+//	printf("%d ",RSum(first));
+
+//  printf("Max is %d\n",Max(first));
+//	printf("Max is %d\n ",RMax(first));
+//	printf("%d ",RMax2(first));
+
+    /*struct Node *temp;
+    temp=LSearch1(first,15);//temp=LSerach(first,key);
+    if(temp)
+    {
+    	printf("Key is found %d\n ",temp->data);
+	}
+	else
+	{
+		printf("Key is not found %d\n");
+	}
+	Display(first);*/
+	
+//	Insert(first,0,12);
+	
+//	SortedInsert(first,6);
+//    Display(first);
+
+//    Delete(first,4);
+    
+    /*if(isSorted(first))
+    {
+    	printf("Sorted \n");
+	}
+	else
+	{
+		printf("not Sorted \n");
+	}
+    Display(first);*/
+    
+//  RemoveDuplicate(first);
+//  Display(first);
+
+     //Reverse3(NULL,first); //Reverse1(first); //Reverse2(first);
+//    Display(first);
+
+//     Concat(second,first);
+//     Display(third);
+
+       Marge(first,second);
+       Display(third);
+	
+	return 0;
+}
