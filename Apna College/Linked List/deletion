@@ -54,10 +54,27 @@ bool search(node* head,int key)
       return false;
 }
 
+// when delete 1st node
+void deleteAThead(node* &head)
+{
+     node* todelete=head;
+     head=head->next;
+     
+     delete todelete;// its importent bcz memory is liked if u dont delete
+}
 // Delete opretion
 
 void deletion(node* &head,int val)
 {
+//check 1st
+     if(head==NULL)
+     {
+          return ;
+     }
+     if(head->next==NULL)
+     {
+          deleteAThead(head);
+     }
      node* temp=head;
      while(temp->next->data!=val)
      {
@@ -71,6 +88,7 @@ void deletion(node* &head,int val)
 
 void display(node* head)
 {
+     
      node* temp=head;
      while(temp!=NULL)
      {
@@ -79,14 +97,7 @@ void display(node* head)
      }
      cout<<"NULL"<<endl;
 }
-// when delete 1st node
-void deleteAThead(node* &head)
-{
-     node* todelete=head;
-     head=head->next;
-     
-     delete todelete;// its importent bcz memory is liked if u dont delete
-}
+
 int main() {
 	
 	node* head=NULL;
