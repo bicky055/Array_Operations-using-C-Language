@@ -79,6 +79,14 @@ void display(node* head)
      }
      cout<<"NULL"<<endl;
 }
+// when delete 1st node
+void deleteAThead(node* &head)
+{
+     node* todelete=head;
+     head=head->next;
+     
+     delete todelete;// its importent bcz memory is liked if u dont delete
+}
 int main() {
 	
 	node* head=NULL;
@@ -92,6 +100,8 @@ int main() {
 	
 	
 	deletion(head,40);
+	display(head);
+	deleteAThead(head);
 	display(head);
 	return 0;
 }
