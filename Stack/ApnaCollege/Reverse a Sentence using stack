@@ -1,0 +1,27 @@
+#include <iostream>
+#include<stack>
+using namespace std;
+
+void reverseSentence(string s){
+	stack <string> st;
+	for(int i=0;i<s.length();i++){
+		string Word="";
+		while(s[i]!=' ' && i<s.length()){
+			Word=Word+s[i];
+			i++;
+		}
+
+		st.push(Word);
+	}
+    while(!st.empty()){
+    	cout<<st.top()<<" ";
+    	st.pop();
+    }cout<<endl;
+}
+int main(){
+	string str="Hey, how are you doing?";
+	reverseSentence(str);
+
+	return 0;
+
+}
