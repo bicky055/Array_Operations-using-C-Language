@@ -1,0 +1,59 @@
+#include<iostream>
+#include<queue>
+#define endl "\n"
+using namespace std;
+
+struct Node{
+	int data;
+	struct Node* lchild;
+	struct Node* rchild;
+	Node(int val){
+		data=val;
+		lchild=NULL;
+		rchild=NULL;
+	}
+};
+
+void flatten(Node* root){
+	if(root==NULL || (root->lchild==NULL&&root->rchild==NULL)){
+		return ;
+	}
+	if(root->lchild!=NULL){
+		flatten(root->lchild);
+
+		Node* temp=root->rchild;
+		root->rchild=root->lchild;
+        root->lchild=NULL;
+
+        Node* t=root->rchild;
+        while(t->rchild!=NULL){
+        	t=t->rchild;
+        }
+        t->rchild=temp;
+	}
+	flatten(root->rchild);
+}
+
+void printInorder(Node* root){
+	if(root==NULL){
+		return;
+	}
+	printInorder(root->lchild);
+	cout<<root->data<<" ";
+	printInorder(root->rchild);
+   
+}
+int main(){
+	Node* root=new Node(4);
+	root->lchild=new Node(9);
+	root->rchild=new Node(5);
+	root->lchild->lchild=new Node(1);
+	root->lchild->rchild=new Node(3);
+	root->rchild->rchild=new Node(6);
+
+    flatten(root);
+    printInorder(root);
+    cout<<endl;
+
+  return 0;
+}
