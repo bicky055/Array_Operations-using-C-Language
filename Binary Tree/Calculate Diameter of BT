@@ -1,0 +1,63 @@
+#include"bits/stdc++.h"
+using namespace std;
+
+struct Node{
+	int data;
+	struct Node* lchild;
+	struct Node* rchild;
+	Node(int val){
+		data=val;
+		lchild=NULL;
+		rchild=NULL;
+	}
+};
+
+int calcHeight(Node* root){
+	if(root==NULL){
+		return 0;
+	}
+	return max(calcHeight(root->lchild),calcHeight(root->rchild))+1;
+}
+
+//calculate Height
+int clacDiameter(Node* root){
+	if(root==NULL){
+		return 0;
+	}
+	int Lheight=calcHeight(root->lchild);
+	int Rheight=calcHeight(root->rchild);
+
+	int currDiameter=Lheight+Rheight+1;
+
+	int lDiameter=clacDiameter(root->lchild);
+	int rDaimeter=clacDiameter(root->rchild);
+
+	return max(currDiameter,max(lDiameter,rDaimeter));
+}
+//M-2 calculate Diameter
+int clacDiameter1(Node* root,int* height){
+	if(root==NULL){
+		return 0;
+	}
+	int lh=0,rh=0;
+	int lDiameter=clacDiameter1(root->lchild,&lh);
+	int rDaimeter=clacDiameter1(root->rchild,&rh);
+
+    int currDiameter=lh+rh+1;
+    *height=max(lh,rh)+1;
+    return max(currDiameter,max(lDiameter,rDaimeter));
+}
+int main(){
+	struct Node* root=new Node(1);
+	root->lchild=new Node(2);
+	root->rchild=new Node(3);
+	root->lchild->lchild=new Node(4);
+	root->lchild->rchild=new Node(5);
+	root->rchild->lchild=new Node(6);
+	root->rchild->rchild=new Node(7);
+
+    //cout<<calcHeight(root)<<"\n;
+    int height=0;
+    cout<<clacDiameter1(root,&height)<<"\n";
+    	return 0;
+}
