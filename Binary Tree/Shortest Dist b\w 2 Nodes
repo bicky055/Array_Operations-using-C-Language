@@ -1,0 +1,70 @@
+#include<iostream>
+#include<queue>
+#define endl "\n"
+using namespace std;
+
+struct Node{
+	int data;
+	struct Node* lchild;
+	struct Node* rchild;
+	Node(int val){
+		data=val;
+		lchild=NULL;
+		rchild=NULL;
+	}
+};
+
+Node* LCA(Node* root,int n1,int n2){
+	if(root==NULL){
+		return NULL;
+	}
+	if(root->data==n1 || root->data==n2){
+		return root;
+	}
+	Node* left=LCA(root->lchild,n1,n2);
+	Node* right=LCA(root->rchild,n1,n2);
+
+	if(left!=NULL && right!=NULL){
+		return root;
+	}
+	if(left==NULL && right==NULL){
+		return NULL;
+	}
+	if(left!=NULL){
+		return LCA(root->lchild,n1,n2);
+	}
+	return LCA(root->rchild,n1,n2);
+	
+}
+
+int findDist(Node* root,int k,int dist){
+	if(root==NULL){
+		return -1;
+	}
+	if(root->data==k){
+		return dist;
+	}
+	int left=findDist(root->lchild,k,dist+1);
+	if(left!=-1){
+		return left;
+	}
+	return findDist(root->rchild,k,dist+1);
+}
+
+int distBtwNodes(Node* root,int n1,int n2){
+	Node* lca=LCA(root,n1,n2);
+    int d1=findDist(lca,n1,0);
+    int d2=findDist(lca,n2,0);
+    return d1+d2;
+}
+int main(){
+	Node* root1=new Node(1);
+	root1->lchild=new Node(2);
+	root1->rchild=new Node(3);
+	root1->lchild->lchild=new Node(4);
+	root1->rchild->rchild=new Node(5);
+	
+
+	cout<<distBtwNodes(root1,4,5)<<endl;
+
+}
