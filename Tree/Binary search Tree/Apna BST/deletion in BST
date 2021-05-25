@@ -1,0 +1,72 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+  int data;
+  Node *lchild,*rchild;
+  Node(int val){
+    data = val;
+    lchild=NULL;
+    rchild=NULL;
+  }
+};
+
+Node* inorderSucc(Node* root){
+  Node* curr=root;
+  while(curr && curr->lchild!=NULL){
+    curr=curr->lchild;
+  }
+  return curr;
+}
+Node* deleteInBST(Node* root,int key){
+  if(key<root->data){
+    root->lchild=deleteInBST(root->lchild,key);
+  }
+  else if(key>root->data){
+    root->rchild=deleteInBST(root->rchild,key);
+  }
+  else{
+    //case1
+    if(root->lchild==NULL){
+      Node* temp=root->rchild;
+      free(root);
+      return temp;
+    }
+    //case2
+    else if(root->rchild==NULL){
+      Node* temp=root->lchild;
+      free(root);
+      return temp;
+    }
+    //case 3
+    Node* temp=inorderSucc(root->rchild);
+    root->data=temp->data; //swap data
+    root->rchild=deleteInBST(root->rchild,temp->data);
+  }
+  return root;
+}
+void printInorder(Node* root){
+  if(root==NULL){
+    return;
+  }
+  printInorder(root->lchild);
+  cout<<root->data<<" ";
+  printInorder(root->rchild);
+}
+int main(){
+  Node* root=new Node(3);
+  root->lchild=new Node(2);
+  root->rchild=new Node(7);
+  root->lchild->lchild=new Node(1);
+  root->rchild->lchild=new Node(5);
+  root->rchild->rchild=new Node(8);
+  root->rchild->lchild->lchild=new Node(4);
+  root->rchild->lchild->rchild=new Node(6);
+  printInorder(root);
+  cout<<endl;
+  root=deleteInBST(root,3);
+
+  printInorder(root);
+  cout<<endl;
+  return 0;
+}
