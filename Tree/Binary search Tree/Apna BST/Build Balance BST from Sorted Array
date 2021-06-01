@@ -1,0 +1,44 @@
+#include<iostream>
+using namespace std;
+
+struct Node{
+  int data;
+  Node* leftchild;
+  Node* rightchild;
+  Node(int val){
+    data = val;
+    leftchild=NULL;
+    rightchild=NULL;
+  }
+};
+
+Node* sortedArrayToBST(int arr[],int start,int end){
+  if(start>end){
+    return NULL;
+  }
+  int mid=(start+end)/2;
+  Node* root=new Node(arr[mid]);
+   //recursivelly call
+  root->leftchild=sortedArrayToBST(arr,start,mid-1);
+  root->rightchild=sortedArrayToBST(arr,mid+1,end);
+
+  return root;
+}
+
+preorderPrint(Node* root){
+  if(root==NULL){
+    return NULL;
+  }
+  cout<<root->data<<" ";
+  preorderPrint(root->leftchild);
+  preorderPrint(root->rightchild);
+}
+int main(){
+  
+  int arr[]={10,20,30,40,50};
+  Node* root=sortedArrayToBST(arr,0,4);
+
+  preorderPrint(root);
+  cout<<"\n";
+  return 0;
+}
