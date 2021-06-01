@@ -1,0 +1,71 @@
+#include<iostream>
+#include<stack>
+using namespace std;
+
+struct Node{
+  int data;
+  Node* leftchild;
+  Node* rightchild;
+  Node(int val){
+    data = val;
+    leftchild=NULL;
+    rightchild=NULL;
+  }
+};
+
+void zigzagTraversal(Node* root){
+  if(root==NULL){
+    return;
+  }
+  stack<Node*> currLevel;
+  stack<Node*> nextLevel;
+
+  bool leftToRight = true;
+  currLevel.push(root);
+
+  while(!currLevel.empty()){
+    Node* temp = currLevel.top();
+    currLevel.pop();
+
+    if(temp){
+      cout<<temp->data<<" ";
+      if(leftToRight){
+        nextLevel.push(temp->leftchild);
+      }
+      if(temp->rightchild){
+        nextLevel.push(temp->rightchild);
+      }
+    //right to left
+    else {
+      if(temp->rightchild){
+        nextLevel.push(temp->rightchild);
+      }
+      if(temp->leftchild){
+        nextLevel.push(temp->leftchild);
+      }
+    }
+  }
+  if(currLevel.empty()){
+    leftToRight = !leftToRight;
+    swap(currLevel,nextLevel);
+    }
+  }
+}
+int main(){
+  #ifndef ONLINE_JUDGE
+  freopen("input.txt","r",stdin);
+  freopen("output.txt","w",stdout);
+  #endif
+
+  Node* root = new Node(1);
+  root->leftchild=new Node(2);
+  root->rightchild=new Node(3);
+  root->leftchild->rightchild=new Node(4);
+  root->leftchild->rightchild->leftchild=new Node(6);
+  root->leftchild->rightchild->rightchild=new Node(7);
+  root->rightchild->rightchild=new Node(5);
+
+  zigzagTraversal(root);
+  cout<<"\n";
+  return 0;
+}
