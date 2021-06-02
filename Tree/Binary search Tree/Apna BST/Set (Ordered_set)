@@ -1,0 +1,43 @@
+#include<iostream>
+#include<set>
+using namespace std;
+int main(){
+  set <int> s;
+  s.insert(1);
+  s.insert(2);
+  s.insert(3);
+  s.insert(3);
+    // printing ordered_set s
+    cout<<" the ordered_set s is : ";
+  for(auto i : s){
+    cout<<i<<" ";
+  }
+  cout<<endl;
+  // printing ordered_set s
+    cout<<" the ordered_set s is : ";
+  for(auto i=s.begin(); i!=s.end();i++){
+    cout<<*i<<" ";
+  }
+  cout<<"\n";
+  //reverse set print
+  cout<<" reverse ordered_set is : ";
+  for(auto i=s.rbegin();i!=s.rend();i++){
+    cout<<*i<<" ";
+  }
+  cout<<"\n";
+  //size of  ordered_set
+  cout<<" size of ordered_set is : "<<s.size()<<"\n";
+  // Custom Comparator
+  set <int,greater<int>> s1;
+  s1.insert(10);
+  s1.insert(20);
+  s1.insert(20);
+  s1.insert(30);
+  //printnib the element in the ordered_set
+  cout<<" custom comparator : ";
+  for(auto i:s1){
+    cout<<i<<" ";
+  }
+  cout<<"\n";
+
+}
