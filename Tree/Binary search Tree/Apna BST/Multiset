@@ -1,0 +1,27 @@
+#include<iostream>
+#include<set>
+using namespace std;
+int main(){
+  multiset<int> s;
+  s.insert(1);
+  s.insert(2);
+  s.insert(3);
+  s.insert(3);
+  s.insert(3);
+  s.insert(3);
+  for(auto i:s)
+  cout << i <<" ";
+  cout<<endl;
+
+  //Erase function
+  s.erase(s.find(3)); // now 1st 3 is Erase
+  cout <<s.size() <<endl;
+
+  s.erase(3); // all three (3) are erase
+  for(auto i:s)
+  cout << i << " ";
+  cout<<endl;
+
+
+
+}
