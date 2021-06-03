@@ -1,0 +1,26 @@
+#include<iostream>
+#include<unordered_set>
+using namespace std;
+int main(){
+  unordered_set<int> s;
+  s.insert(3);
+  s.insert(10);
+  s.insert(5);
+  s.insert(4);
+
+  for(auto i:s)
+  cout << i << " ";
+  cout << endl;
+
+  s.erase(10);
+  for(auto i:s)
+  cout << i << " ";
+  cout << endl;
+
+  s.erase(s.begin());
+  for(auto i:s)
+  cout << i << " ";
+  cout << endl;
+
+
+}
